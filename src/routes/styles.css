@@ -1,0 +1,177 @@
+/*
+  Hale & Sterling LLP — route stylesheet.
+  Design tokens, glass panels, marquee, zoom gallery, sticky stack,
+  voices crossfade. Imported once by src/routes/index.tsx.
+*/
+
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+.firm-page {
+  --firm-bg: #08090c;
+  --firm-panel: rgba(16, 20, 26, 0.78);
+  --firm-panel-hover: rgba(23, 30, 40, 0.88);
+  --firm-border: rgba(255, 255, 255, 0.09);
+  --firm-border-hover: rgba(255, 255, 255, 0.24);
+  --firm-accent: #d8b46a;
+  --firm-glow: rgba(216, 180, 106, 0.22);
+  --firm-text: #f5f2ea;
+  --firm-muted: #a3adb3;
+  --firm-font-display: 'Satoshi', 'Geist', sans-serif;
+  --firm-font-body: 'Geist', 'Satoshi', sans-serif;
+  --firm-font-mono: 'JetBrains Mono', monospace;
+  background: var(--firm-bg);
+  color: var(--firm-text);
+  font-family: var(--firm-font-body);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.firm-display { font-family: var(--firm-font-display); }
+.firm-mono { font-family: var(--firm-font-mono); }
+
+.firm-ambient {
+  position: absolute;
+  top: -240px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1500px;
+  height: 900px;
+  background: radial-gradient(circle at 50% 32%, rgba(216, 180, 106, 0.12) 0%, rgba(120, 130, 200, 0.09) 38%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.firm-ambient-b {
+  position: absolute;
+  top: 2500px;
+  left: -260px;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(216, 180, 106, 0.07) 0%, rgba(120, 130, 200, 0.06) 45%, transparent 70%);
+  filter: blur(110px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.firm-glass {
+  background: var(--firm-panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--firm-border);
+  transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s, transform 0.4s ease;
+}
+
+.firm-glass:hover {
+  background: var(--firm-panel-hover);
+  border-color: var(--firm-border-hover);
+  box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.65), 0 0 34px -6px var(--firm-glow);
+}
+
+.firm-nav-pill {
+  background: rgba(9, 12, 17, 0.84);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.firm-btn-primary {
+  background: #ffffff;
+  color: #0c0a05;
+  box-shadow: 0 4px 22px rgba(255, 255, 255, 0.16);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, background 0.3s;
+}
+
+.firm-btn-primary:hover {
+  background: #f3e7cb;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(216, 180, 106, 0.35);
+}
+
+.firm-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, border-color 0.3s;
+}
+
+.firm-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.11);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+.firm-hero-h1 {
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+@keyframes firmMarquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.firm-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: firmMarquee 38s linear infinite;
+}
+
+.firm-marquee-wrap:hover .firm-marquee-track { animation-play-state: paused; }
+
+/* Image Scale and Fade Scroll gallery */
+.firm-zoom-frame { overflow: hidden; }
+.firm-zoom-frame img {
+  transform: scale(0.8);
+  opacity: 0.35;
+  filter: grayscale(0.55) contrast(1.15) brightness(0.72);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease, filter 0.9s ease;
+}
+.firm-zoom-frame[data-visible="true"] img {
+  transform: scale(1);
+  opacity: 0.92;
+  filter: grayscale(0.15) contrast(1.2) brightness(0.95);
+}
+.firm-zoom-frame[data-dim="true"] img {
+  opacity: 0.2;
+  filter: grayscale(0.8) brightness(0.5);
+}
+
+/* Sticky card stacking */
+.firm-stack-card {
+  position: sticky;
+  top: 110px;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
+}
+
+/* Carousel — fixed-height crossfade, no remount blink */
+.firm-dot { transition: width 0.35s ease, background 0.35s ease; }
+.firm-voice-slide {
+  transition: opacity 0.35s ease;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+.firm-voice-slide[data-active="true"] {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .firm-marquee-track { animation: none !important; transform: none !important; }
+  .firm-zoom-frame img { transform: scale(1) !important; opacity: 0.92 !important; filter: none !important; transition: none !important; }
+  .firm-stack-card { position: static !important; transform: none !important; }
+  .firm-glass, .firm-btn-primary, .firm-btn-secondary { transition: none !important; transform: none !important; }
+  .firm-voice-slide { transition: none !important; }
+  .firm-page { scroll-behavior: auto; }
+}
