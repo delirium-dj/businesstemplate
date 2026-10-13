@@ -1,3 +1,20 @@
+# Dependencies
 node_modules
-dist
+.pnpm-store
 
+# Build outputs
+dist
+server
+.vercel
+.output
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea

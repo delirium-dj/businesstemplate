@@ -13,11 +13,15 @@
     "dev:direct": "node node_modules/vite/bin/vite.js --mode ssr",
     "build": "qwik build",
     "build:direct": "node node_modules/vite/bin/vite.js build",
+    "build.client": "vite build",
+    "build.preview": "vite build --mode preview",
+    "build.server": "vite build -c adapters/vercel-edge/vite.config.ts",
     "build.types": "tsc --incremental --noEmit",
     "build.types:direct": "node node_modules/typescript/bin/tsc --incremental --noEmit",
     "preview": "vite preview",
     "start": "vite --open --mode ssr",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "deploy": "vercel deploy"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.20.0",
