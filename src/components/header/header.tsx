@@ -1,8 +1,22 @@
+// ---------------------------------------------------------------------------
+// components/header/header.tsx — floating glass pill nav.
+//
+// LAYOUT CONTRACT: telephone LEFT, brand CENTER, links/hamburger RIGHT.
+// The brand is absolutely centered (left-1/2 -translate-x-1/2) so it stays
+// centered even though left/right slots have different widths. max-w-[46vw]
+// + truncate keeps it from colliding with the side slots on tiny screens.
+// Nav state (menuOpen) lives in the parent page; this component is stateless
+// and receives it via props + QRL callbacks (the $ suffix = lazy-loaded).
+// ---------------------------------------------------------------------------
 import { component$ } from "@builder.io/qwik";
+// JUNIOR: FIRM comes from src/routes/index.tsx — one source of truth for
+// name/phone so header, footer, and hero can never disagree.
 import { FIRM } from "../../routes";
 
 interface HeaderProps {
   menuOpen: boolean;
+  // AI NOTE: QRL props MUST end in `$` (onToggleMenu$) or Qwik's optimizer
+  // cannot serialize them. A plain `onToggleMenu` prop would break the build.
   onToggleMenu$: () => void;
   onCloseMenu$: () => void;
 }

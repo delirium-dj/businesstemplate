@@ -1,17 +1,35 @@
-# Dependencies
+# ---------------------------------------------------------------------------
+# .gitignore — files Git must NEVER commit.
+#
+# WHY THIS FILE EXISTS:
+#   Build artifacts (dist/, node_modules/) are large, machine-generated, and
+#   differ per OS. Committing them bloats the repo and causes merge conflicts.
+#   Vercel / CI rebuilds them from package.json + pnpm-lock.yaml on deploy.
+#   JUNIOR: if `git status` shows thousands of files after `pnpm install`,
+#   this file is misconfigured — do NOT `git add -f` them, fix the rule.
+# ---------------------------------------------------------------------------
+
+# Dependencies — JUNIOR: reinstall with `pnpm install` after cloning.
+# Never commit: ~200MB, OS-specific binaries inside.
 node_modules
 .pnpm-store
 
-# Build outputs
+# Build outputs — JUNIOR: regenerating with `pnpm build` recreates these.
+# `dist` = production site, `server` = legacy SSR output, `.vercel`/`.output`
+# = deploy-provider caches. AI NOTE: `server/` is ignored for history reasons
+# (older Qwik adapters emitted there); harmless if the folder is absent.
 dist
 server
 .vercel
 .output
 
-# TypeScript incremental build info
+# TypeScript incremental build info — JUNIOR: local compiler cache that
+# speeds up `tsc --incremental`. Safe to delete; tsc recreates it.
 *.tsbuildinfo
 
-# OS / editor noise
+# OS / editor noise — JUNIOR: .DS_Store (macOS Finder), Thumbs.db (Windows),
+# *.log (debug output), .vscode/* (personal editor settings).
+# The `!` exception keeps shared extension recommendations.
 .DS_Store
 Thumbs.db
 *.log

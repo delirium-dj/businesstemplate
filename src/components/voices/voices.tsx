@@ -1,4 +1,23 @@
+// ---------------------------------------------------------------------------
+// components/voices/voices.tsx — DESIRE section: testimonial carousel.
+//
+// WHY THIS FILE EXISTS:
+//   Social proof ("What working with us feels like"). Fixed-dimension crossfade
+//   card: all quotes stay mounted, CSS toggles opacity via data-active, so
+//   switching slides never changes card height (no layout blink/jump).
+//
+// STATE OWNERSHIP (JUNIOR — important Qwik pattern):
+//   `carousel` (active index) and `paused` (hover/focus freeze) are Signals
+//   OWNED by index.tsx, passed here as objects (not .value). Why lift state?
+//   Because the 8s auto-rotate setInterval lives in index.tsx — if state lived
+//   here, timer and buttons would desync. Rule: state lives with its timer.
+//   onClick$ handlers mutate carousel.value directly (reactive = instant UI).
+//   prev/next also set paused=true for 8s so manual nav isn't instantly
+//   overridden by the timer. Dots use aria-current for screen-reader position.
+// ---------------------------------------------------------------------------
 import { component$, type Signal } from "@builder.io/qwik";
+// JUNIOR: `type Signal` = type-only import (no JS emitted). Signal<number> =
+// reactive box: read .value to render, write .value to update everywhere.
 import { VOICES } from "../../routes";
 
 interface VoicesProps {
@@ -12,6 +31,7 @@ interface VoicesProps {
  */
 export const Voices = component$<VoicesProps>(({ carousel, paused }) => {
   return (
+    // JUNIOR: id="voices" = nav anchor. scroll-mt-28 = offset for fixed nav.
     <section id="voices" aria-label="Client voices" class="mx-auto max-w-6xl scroll-mt-28 px-6 py-8 md:py-12">
       <span class="firm-mono text-xs uppercase tracking-widest text-[#d8b46a]">Client voices</span>
       <h2 class="firm-display mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
@@ -20,6 +40,10 @@ export const Voices = component$<VoicesProps>(({ carousel, paused }) => {
       <p class="mt-4 max-w-2xl text-base font-light text-slate-300">
         From owners and operators we counsel year after year. Names and companies shared with permission.
       </p>
+      {/* JUNIOR: hover/focus pauses the 8s timer (paused.value=true) so users
+          can read without the slide changing mid-sentence. onFocusIn/Out =
+          keyboard equivalent of hover (a11y parity). Qwik's $ handlers are
+          lazy-loaded — zero JS until first interaction. */}
       <div
         class="firm-glass mt-12 rounded-3xl p-8 md:p-12"
         onMouseEnter$={() => {
@@ -35,6 +59,9 @@ export const Voices = component$<VoicesProps>(({ carousel, paused }) => {
           paused.value = false;
         }}
       >
+        {/* JUNIOR: min-h reserves slide height (300px mobile / 240px desktop) so
+            crossfading never collapses the card (no blink). Avatars highlight
+            the active testimonial gold; inactive dim to opacity-70. */}
         <div class="flex min-h-[300px] flex-col gap-8 sm:min-h-[260px] md:min-h-[240px] md:flex-row md:items-center">
           <div class="flex shrink-0 -space-x-3">
             {VOICES.map((v, i) => (

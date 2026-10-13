@@ -1,1 +1,7 @@
+<!-- public/favicon.svg — browser tab icon (scales-balance emoji).
+  WHY THIS FILE EXISTS: referenced as <link rel="icon" href="/favicon.svg"> in
+  router-head.tsx. Browsers show it in tabs/bookmarks. JUNIOR: viewBox 0 0 100 100
+  + font-size 90 centers the emoji glyph; y=".9em" aligns baseline. Replace with
+  the firm's real logo SVG (keep the same filename to avoid editing router-head).
+  AI NOTE: files in public/ are served verbatim at "/" — favicon.svg -> /favicon.svg. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚖️</text></svg>

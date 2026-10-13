@@ -3,6 +3,20 @@
 Qwik City + Tailwind v3 marketing site for a Chicago business-litigation boutique.
 Dark cinematic theme, glass panels, animated gallery, auto-rotating testimonials.
 
+> **For juniors + AI agents:** every source file starts with a `WHY THIS FILE
+> EXISTS` header, plus inline `JUNIOR:` (concept explanations) and `AI NOTE:`
+> (pitfalls/contracts) comments. Start here, then read `src/routes/index.tsx`
+> (page data + composition) and `src/routes/styles.css` (design tokens).
+> **JSON files (`package.json`, `tsconfig.json`, `public/manifest.json`) have no
+> inline comments** — JSON syntax forbids them. Their docs live here:
+> - `package.json` — scripts: `dev` (SSR+HMR on :5173), `build` (client+SSR to
+>   `dist/`), `preview`, `build.types` (`tsc --noEmit` typecheck), `deploy`.
+>   Engines: Node >=18.17, pnpm 9.x. Deps: Qwik 1.20 + QwikCity + Tailwind 3.4.
+> - `tsconfig.json` — `jsx: react-jsx` + `jsxImportSource: @builder.io/qwik` (Qwik
+>   JSX), `paths: {"~/*": ["./src/*"]}` alias, `include: [src, vite.config.ts]`.
+> - `public/manifest.json` — PWA manifest (`name`, `start_url: "."`,
+>   `display: standalone`); linked from `root.tsx`, served verbatim from `public/`.
+
 ## Quick start
 
 ```bash

@@ -1,10 +1,30 @@
+// ---------------------------------------------------------------------------
+// components/footer/footer.tsx — ACTION section: closing CTA + site footer.
+//
+// WHY THIS FILE EXISTS:
+//   Final AIDA chapter ("Action"): a high-contrast light card (#f5f2ea on the
+//   dark page — inverted to demand attention) with tel: + mailto: CTAs, then
+//   the black site footer (brand, city, anchor links). Owns the SINGLE
+//   id="contact" anchor — every "Book consultation" button site-wide points
+//   here. Do NOT add a second id="contact" or anchor jumps become ambiguous.
+//
+// DESIGN NOTE (JUNIOR): style={{background:"#f5f2ea"}} inverts the dark theme
+// deliberately (paper = final document). Text switches to slate-950/700 for
+// contrast. .firm-glass still provides the border/blur structure underneath.
+// tel: / mailto: hrefs are built from FIRM.phone/email so one edit rebrands.
+// ---------------------------------------------------------------------------
 import { component$ } from "@builder.io/qwik";
+// JUNIOR: FIRM = name/suffix/phone/email/address from routes/index.tsx.
+// Footer never hardcodes contact info — always reads from there.
 import { FIRM } from "../../routes";
 
 /** Closing CTA + footer. Owns the #contact anchor. */
 export const Footer = component$(() => {
   return (
     <>
+      {/* JUNIOR: fragment (<>) wraps TWO siblings (CTA div + <footer>) because
+          a component must return one root. max-w-6xl keeps CTA aligned with
+          sections above; scroll-mt-28 offsets the fixed nav on #contact jumps. */}
       <div class="mx-auto w-full max-w-6xl px-6">
         <div
           id="contact"

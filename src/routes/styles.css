@@ -2,11 +2,30 @@
   Hale & Sterling LLP — route stylesheet.
   Design tokens, glass panels, marquee, zoom gallery, sticky stack,
   voices crossfade. Imported once by src/routes/index.tsx.
+
+  FOR JUNIORS — HOW TO READ THIS FILE:
+    - Section 1 (fonts): @import pulls display/body/mono fonts from Fontshare
+      + Google Fonts. Must stay at the TOP of the file: CSS spec requires
+      @import before any other rule, or the fonts silently fail.
+    - Section 2 (.firm-page tokens): --firm-* CSS variables = the design
+      system. Change --firm-accent once to re-theme every gold highlight.
+    - Sections 3-8: one effect per block (glass, nav, buttons, hero type,
+      marquee, gallery, sticky stack, carousel). Each block's comment names
+      the component that uses it + the JS that toggles its data-* attributes.
+    - Section 9 (reduced-motion): accessibility kill-switch. Do NOT add
+      animated rules without a counterpart here.
+
+  FOR AI AGENTS: prefer editing --firm-* tokens over hardcoding hex values in
+  components. Prefer adding a .firm-* class here over Tailwind arbitrary values
+  (e.g. text-[#d8b46a]) when a pattern repeats 3+ times.
 */
 
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
+/* -- Design tokens: single source of truth for colors/fonts -----------------
+   JUNIOR: var(--firm-accent) reads these. Scoped to .firm-page so a future
+   second route could define different tokens without collisions. */
 .firm-page {
   --firm-bg: #08090c;
   --firm-panel: rgba(16, 20, 26, 0.78);
@@ -29,9 +48,13 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.firm-display { font-family: var(--firm-font-display); }
-.firm-mono { font-family: var(--firm-font-mono); }
+.firm-display { font-family: var(--firm-font-display); } /* JUNIOR: headings — Satoshi Black for the cinematic look. */
+.firm-mono { font-family: var(--firm-font-mono); } /* JUNIOR: kickers/eyebrows/stats — JetBrains Mono for the "legal brief" feel. */
 
+/* -- Ambient background glows (decorative, behind content) --------------------
+   JUNIOR: absolute + blur(90px) + pointer-events:none = soft light that never
+   blocks clicks. z-index:0 keeps it behind section content (z-10).
+   Clipped by .firm-page overflow-x:hidden so the 1500px width never scrolls. */
 .firm-ambient {
   position: absolute;
   top: -240px;
@@ -57,6 +80,10 @@
   z-index: 0;
 }
 
+/* -- Glass panels (practice cards, voices card, contact CTA) -----------------
+   JUNIOR: backdrop-filter:blur = frosted-glass over the dark bg. The :hover
+   rule lifts border-color + adds gold glow — that hover affordance tells users
+   the card is interactive. transition 0.5s with expo easing keeps it buttery. */
 .firm-glass {
   background: var(--firm-panel);
   backdrop-filter: blur(24px);
@@ -71,6 +98,9 @@
   box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.65), 0 0 34px -6px var(--firm-glow);
 }
 
+/* -- Floating nav pill (header.tsx) -------------------------------------------
+   JUNIOR: rgba(9,12,17,0.84) + blur(20px) = readable over hero imagery while
+   still showing depth. inset box-shadow = 1px top highlight (beveled edge). */
 .firm-nav-pill {
   background: rgba(9, 12, 17, 0.84);
   backdrop-filter: blur(20px);
@@ -79,6 +109,11 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
+/* -- Buttons: primary (white) vs secondary (ghost) --------------------------------
+   JUNIOR: hero.tsx renders EXACTLY two CTAs — primary = high-commitment
+   ("Book consultation"), secondary = low-commitment ("See matters").
+   translateY(-2px) on hover = lift affordance. Keep both paddings identical
+   (px-8 py-4 in markup) so the pair looks like a designed set. */
 .firm-btn-primary {
   background: #ffffff;
   color: #0c0a05;
@@ -106,12 +141,21 @@
   transform: translateY(-2px);
 }
 
+/* -- Hero H1 fluid type ------------------------------------------------------------
+   JUNIOR: clamp(3rem, 5vw, 5.5rem) = fluid size: 48px on phones, scales with
+   viewport, caps at 88px on ultrawide. letter-spacing -0.045em = tight
+   cinematic tracking. line-height 1.02 keeps the two hero lines visually glued. */
 .firm-hero-h1 {
   font-size: clamp(3rem, 5vw, 5.5rem);
   line-height: 1.02;
   letter-spacing: -0.045em;
 }
 
+/* -- Marquee ribbon (marquee.tsx) --------------------------------------------------
+   JUNIOR: the track is width:max-content with the MARQUEE array DUPLICATED in
+   markup; animating translateX(0% -> -50%) therefore loops seamlessly (second
+   copy takes the first copy's place). 38s linear infinite = constant speed.
+   Hover pauses (animation-play-state) so users can read an item. */
 @keyframes firmMarquee {
   0% { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
@@ -125,7 +169,13 @@
 
 .firm-marquee-wrap:hover .firm-marquee-track { animation-play-state: paused; }
 
-/* Image Scale and Fade Scroll gallery */
+/* Image Scale and Fade Scroll gallery (gallery.tsx + index.tsx observer) -------
+   JUNIOR: three states driven by JS data-attributes set in index.tsx:
+   - default (data-visible="false"): small (scale .8), dim, desaturated — "waiting".
+   - data-visible="true": full scale/opacity — scrolled into view (threshold .6).
+   - data-dim="true": faded again — scrolled PAST (top < 0), keeps focus forward.
+   transition .9s expo = slow cinematic settle. filter grayscale/contrast gives
+   the archival-legal-photo grade. */
 .firm-zoom-frame { overflow: hidden; }
 .firm-zoom-frame img {
   transform: scale(0.8);
@@ -143,14 +193,23 @@
   filter: grayscale(0.8) brightness(0.5);
 }
 
-/* Sticky card stacking */
+/* Sticky card stacking (assurance.tsx + index.tsx onScroll) -----------------------
+   JUNIOR: position:sticky + top:110px pins each card under the fixed nav while
+   the next card slides over it (zIndex i+1 set inline). `stacked` in index.tsx
+   also applies scale(1 - offset*0.02) so buried cards shrink slightly — depth
+   cue. top:110px clears the floating pill nav (top-4/6 + height). */
 .firm-stack-card {
   position: sticky;
   top: 110px;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s;
 }
 
-/* Carousel — fixed-height crossfade, no remount blink */
+/* Carousel — fixed-height crossfade, no remount blink (voices.tsx) ---------------
+   JUNIOR: ALL slides stay mounted (absolute inset-0, opacity 0, hidden) except
+   the active one (position:relative, opacity 1). Why? Toggling display:none
+   would collapse card height and cause layout jump (blink). data-active is
+   set from carousel.value % VOICES.length. .firm-dot width animates 8px->32px
+   to show progress. min-height on the card (in markup) reserves space. */
 .firm-dot { transition: width 0.35s ease, background 0.35s ease; }
 .firm-voice-slide {
   transition: opacity 0.35s ease;
@@ -167,6 +226,13 @@
   visibility: visible;
 }
 
+/* -- Reduced motion: accessibility kill-switch --------------------------------------
+   JUNIOR: users with vestibular disorders set "Reduce motion" in their OS.
+   This block (triggered by the media query) DISABLES marquee/zoom/sticky/
+   transitions and forces final states (opacity .92, scale 1). The JS in
+   index.tsx checks the same query and SKIPS observers/timers. Both halves
+   must stay in sync — if you add animation, add its override here AND a
+   matchMedia guard in index.tsx. */
 @media (prefers-reduced-motion: reduce) {
   .firm-marquee-track { animation: none !important; transform: none !important; }
   .firm-zoom-frame img { transform: scale(1) !important; opacity: 0.92 !important; filter: none !important; transition: none !important; }

@@ -1,16 +1,41 @@
+/* ---------------------------------------------------------------------------
+   src/global.css — app-wide Tailwind + base resets. Imported ONCE by root.tsx.
+
+   WHY THIS FILE EXISTS:
+   - root.tsx imports this ONCE so Tailwind base + resets load for the WHOLE
+     app (not per-route). If a route needs extra styling, it adds its own
+     styles.css (see src/routes/styles.css) — never duplicate Tailwind here.
+   - The dark html/body background (#08090c) paints BEFORE Qwik hydrates, so
+     first paint is dark (no white flash). .firm-page refines this further.
+
+   WHY TAILWIND DIRECTIVES COME FIRST:
+   @tailwind base/components/utilities must precede custom CSS so utilities
+   can override base styles. PostCSS (see postcss.config.cjs) expands these
+   into the actual utility classes at build time. Custom rules AFTER = win.
+
+   FOR AI AGENTS: put global resets/themes here; put page-specific tokens
+   (--firm-*) in src/routes/styles.css, not here, to keep routes independent.
+   --------------------------------------------------------------------------- */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global resets for this template */
+/* Page shell: dark background painted BEFORE Qwik hydrates, so there is no
+   white flash on first paint. .firm-page (styles.css) refines this further. */
 html {
+  /* JUNIOR: smooth scrolling = anchor links (#practice, #top) glide instead
+     of jumping. Disabled for reduced-motion users via styles.css override
+     (scroll-behavior:auto) — keep both in sync. */
   scroll-behavior: smooth;
   background: #08090c;
 }
 
 body {
-  margin: 0;
+  margin: 0; /* JUNIOR: browsers default to 8px body margin — kills full-bleed hero. */
   background: #08090c;
   color: #f5f2ea;
+  /* JUNIOR: system-ui fallback ensures readable text even if Geist/Satoshi
+     webfonts (imported in styles.css) fail offline — never rely on webfonts alone. */
   font-family: 'Geist', 'Satoshi', system-ui, sans-serif;
 }
