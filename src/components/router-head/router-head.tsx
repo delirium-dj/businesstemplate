@@ -40,11 +40,28 @@ export const RouterHead = component$(() => {
       ))}
 
       {head.styles.map((s) => (
-        <style key={s.key} {...s.props} dangerouslySetInnerHTML={s.style} />
+        // JUNIOR: `dangerouslySetInnerHTML` is passed via SPREAD (not as an
+        // explicit JSX prop) on purpose. Writing
+        // `<style {...s.props} dangerouslySetInnerHTML={s.style} />` makes the
+        // Qwik optimizer emit the key twice (original + signal-wrapped), and
+        // esbuild warns `Duplicate key "dangerouslySetInnerHTML"` on every
+        // server build. A single conditional spread keeps exactly one key, so
+        // `vite build -c adapters/...` stays warning-free. Same pattern below
+        // for <script>. AI NOTE: do NOT "simplify" these back to explicit props
+        // or the Vercel log warnings return (harmless, but noisy).
+        <style
+          key={s.key}
+          {...s.props}
+          {...(s.style ? { dangerouslySetInnerHTML: s.style } : {})}
+        />
       ))}
 
       {head.scripts.map((s) => (
-        <script key={s.key} {...s.props} dangerouslySetInnerHTML={s.script} />
+        <script
+          key={s.key}
+          {...s.props}
+          {...(s.script ? { dangerouslySetInnerHTML: s.script } : {})}
+        />
       ))}
     </>
   );
