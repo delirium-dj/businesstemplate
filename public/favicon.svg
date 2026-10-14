@@ -1,10 +1,7 @@
-<!-- public/favicon.svg — professional firm mark for Hale & Sterling LLP.
-  Dark rounded square + gold shield + HS serif monogram.
-  Matches --firm-bg #08090c, --firm-accent #d8b46a, --firm-text #f5f2ea. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <rect width="64" height="64" rx="14" fill="#08090c"/>
   <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#d8b46a" stroke-opacity="0.4" stroke-width="1.5"/>
-  <path d="M32 11 L48 17.5 V32.5 C48 42 41.5 49 32 52.5 C22.5 49 16 42 16 32.5 V17.5 Z" fill="rgba(216,180,106,0.08)" stroke="#d8b46a" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 11 L48 17.5 V32.5 C48 42 41.5 49 32 52.5 C22.5 49 16 42 16 32.5 V17.5 Z" fill="#d8b46a" fill-opacity="0.08" stroke="#d8b46a" stroke-width="2" stroke-linejoin="round"/>
   <path d="M32 14.5 L44.5 19.5 V32.5 C44.5 39.5 39.5 45 32 48 C24.5 45 19.5 39.5 19.5 32.5 V19.5 Z" fill="none" stroke="#d8b46a" stroke-opacity="0.35" stroke-width="1"/>
   <text x="32" y="36.5" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="700" letter-spacing="0.5" fill="#f5f2ea">HS</text>
   <line x1="24" y1="40.5" x2="40" y2="40.5" stroke="#d8b46a" stroke-width="1.2" stroke-linecap="round"/>
