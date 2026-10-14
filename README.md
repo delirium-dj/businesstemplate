@@ -9,9 +9,14 @@ Dark cinematic theme, glass panels, animated gallery, auto-rotating testimonials
 > (page data + composition) and `src/routes/styles.css` (design tokens).
 > **JSON files (`package.json`, `tsconfig.json`, `public/manifest.json`) have no
 > inline comments** — JSON syntax forbids them. Their docs live here:
-> - `package.json` — scripts: `dev` (SSR+HMR on :5173), `build` (client+SSR to
->   `dist/`), `preview`, `build.types` (`tsc --noEmit` typecheck), `deploy`.
->   Engines: Node >=18.17, pnpm 9.x. Deps: Qwik 1.20 + QwikCity + Tailwind 3.4.
+> - `package.json` — scripts: `dev` (SSR+HMR on :5173), `build` (runs
+>   `build.types` + `build.client` + `build.server` into `dist/` — the same
+>   three steps `qwik build` runs, chained directly so the Qwik CLI never
+>   spawns `npm run` subprocesses), `preview`, `build.types` (`tsc --noEmit`
+>   typecheck), `deploy`. Engines: Node `22.x` pinned (matches local dev;
+>   Vercel deploys Node 22 — a pinned major silences Vercel's auto-upgrade
+>   warning). Requires pnpm `9.x`.
+>   Deps: Qwik 1.20 + QwikCity + Tailwind 3.4.
 > - `tsconfig.json` — `jsx: react-jsx` + `jsxImportSource: @builder.io/qwik` (Qwik
 >   JSX), `paths: {"~/*": ["./src/*"]}` alias, `include: [src, vite.config.ts]`.
 > - `public/manifest.json` — PWA manifest (`name`, `start_url: "."`,

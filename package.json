@@ -6,12 +6,12 @@
   "type": "module",
   "packageManager": "pnpm@9.15.4",
   "engines": {
-    "node": ">=18.17.0"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "vite --mode ssr",
     "dev:direct": "node node_modules/vite/bin/vite.js --mode ssr",
-    "build": "qwik build",
+    "build": "pnpm build.types && pnpm build.client && pnpm build.server",
     "build:direct": "node node_modules/vite/bin/vite.js build",
     "build.client": "vite build",
     "build.preview": "vite build --mode preview",
