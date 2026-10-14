@@ -28,7 +28,9 @@ export const RouterHead = component$(() => {
           request, so previews and production each self-reference correctly. */}
       <link rel="canonical" href={loc.url.href} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="theme-color" content="#08090c" />
       <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <link rel="apple-touch-icon" href="/favicon.svg" />
 
       {/* Route-provided tags below — keys let Qwik diff them on navigation. */}
       {head.meta.map((m) => (

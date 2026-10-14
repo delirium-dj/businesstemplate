@@ -14,6 +14,7 @@
 // tel: / mailto: hrefs are built from FIRM.phone/email so one edit rebrands.
 // ---------------------------------------------------------------------------
 import { component$ } from "@builder.io/qwik";
+import { LogoMark } from "../logo/logo";
 // JUNIOR: FIRM = name/suffix/phone/email/address from routes/index.tsx.
 // Footer never hardcodes contact info — always reads from there.
 import { FIRM } from "../../routes";
@@ -51,7 +52,7 @@ export const Footer = component$(() => {
       <footer class="mt-16 border-t border-white/10 bg-black/60 py-12 md:mt-24">
         <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 sm:flex-row">
           <div class="flex items-center gap-3 text-xs text-slate-400">
-            <span class="inline-block h-2 w-2 rounded-full bg-[#d8b46a]" />
+            <LogoMark size={22} class="shrink-0" />
             <span class="font-bold text-white">{FIRM.name} {FIRM.suffix}</span>
             <span>· Chicago, since 1998</span>
           </div>

@@ -9,6 +9,7 @@
 // and receives it via props + QRL callbacks (the $ suffix = lazy-loaded).
 // ---------------------------------------------------------------------------
 import { component$ } from "@builder.io/qwik";
+import { LogoMark } from "../logo/logo";
 // JUNIOR: FIRM comes from src/routes/index.tsx — one source of truth for
 // name/phone so header, footer, and hero can never disagree.
 import { FIRM } from "../../routes";
@@ -51,8 +52,8 @@ export const Header = component$<HeaderProps>(
                   </svg>
                 </a>
               </div>
-              <div class="absolute left-1/2 top-1/2 flex max-w-[46vw] -translate-x-1/2 -translate-y-1/2 items-center gap-2">
-                <span class="inline-block h-2 w-2 shrink-0 rounded-full bg-[#d8b46a]" />
+              <div class="absolute left-1/2 top-1/2 flex max-w-[46vw] -translate-x-1/2 -translate-y-1/2 items-center gap-2.5">
+                <LogoMark size={28} class="shrink-0" />
                 <a href="#top" class="firm-display truncate font-bold tracking-tight text-white lg:text-xl">
                   {FIRM.name}
                 </a>
